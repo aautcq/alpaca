@@ -1,0 +1,45 @@
+{
+  "name": "matey",
+  "type": "module",
+  "private": true,
+  "description": "Matey is a chatbot using a locally running LLM for personal use",
+  "author": "Adrien Autricque <adrien.autricque@gmail.com>",
+  "license": "MIT",
+  "keywords": [
+    "Adrien Autricque",
+    "aautcq",
+    "LLM"
+  ],
+  "engines": {
+    "node": "~18.7.0",
+    "npm": "~8.15.0"
+  },
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "lint": "eslint . --fix"
+  },
+  "cacheDirectories": [
+    "node_modules"
+  ],
+  "dependencies": {
+    "@langchain/community": "^0.0.19",
+    "@langchain/core": "^0.1.17",
+    "langchain": "^0.1.5",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^2.6.3",
+    "@nuxt/ui": "^2.12.3",
+    "@nuxtjs/fontaine": "^0.4.1",
+    "@types/uuid": "^9.0.7",
+    "nuxt": "^3.9.3",
+    "nuxt-security": "^1.0.1",
+    "sass": "^1.70.0",
+    "vue": "^3.4.14",
+    "vue-router": "^4.2.5"
+  }
+}
