@@ -27,11 +27,7 @@ defineExpose({
 </script>
 
 <template>
-  <UForm
-    :state="state"
-    class="fixed bottom-0 inset-x-0 container flex items-end gap-x-2 w-full py-5"
-    @submit="send"
-  >
+  <UForm :state="state" class="form-wrapper" @submit="send">
     <UTextarea
       ref="inputTextarea"
       v-model="state.user_input"
@@ -40,6 +36,7 @@ defineExpose({
       :autofocus="true"
       :rows="textareaRows"
       placeholder="Type a message..."
+      autocomplete="off"
       class="flex-auto"
       @keydown.enter.exact.prevent="send"
     />
@@ -54,3 +51,10 @@ defineExpose({
     </UButton>
   </UForm>
 </template>
+
+<style lang="scss" scoped>
+.form-wrapper {
+  @apply fixed bottom-0 inset-x-0 container flex items-end gap-x-1 md:gap-x-2;
+  @apply w-full py-5 bg-slate-900;
+}
+</style>

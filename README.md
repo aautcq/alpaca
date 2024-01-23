@@ -35,13 +35,9 @@ pnpm run dev
 
 ## Improvements
 
-- [ ] Add a header and footer
-- [ ] Improve CSS around the new message component
-- [ ] Use previous messages as context for the next message
-- [ ] Add a parser for code blocks
-- [ ] Add a button to stop answers generation
-- [ ] Add a button to clear the chat
+- [ ] Copy button next to code blocks
 - [ ] Save chats in local storage or local DB
+- [ ] Add document upload for context
 
 ## Useful links
 
