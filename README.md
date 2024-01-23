@@ -38,6 +38,7 @@ pnpm run dev
 - [ ] Copy button next to code blocks
 - [ ] Save chats in local storage or local DB
 - [ ] Add document upload for context
+- [ ] Logo and favicon
 
 ## Useful links
 

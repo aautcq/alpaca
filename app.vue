@@ -58,8 +58,16 @@ async function getResponse(input: string) {
   inputTextarea.value?.focus()
 }
 
-function updatePrePromt() {
+async function updatePrePromt() {
   stream = useLlm()
+  await nextTick()
+  inputTextarea.value?.focus()
+}
+
+async function clearChat() {
+  conversation.messages = []
+  await nextTick()
+  inputTextarea.value?.focus()
 }
 </script>
 
@@ -67,7 +75,7 @@ function updatePrePromt() {
   <div>
     <TheHeader
       :show-clear-chat-btn="conversation.messages.length > 0 && !isGeneratingResponse"
-      @clear-chat="conversation.messages = []"
+      @clear-chat="clearChat"
       @update-pre-prompt="updatePrePromt"
     />
     <main class="container">

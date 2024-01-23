@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { marked } from 'marked'
 import type { Message } from '~/types'
 
 const props = defineProps<{
@@ -35,10 +34,9 @@ const formattedTime = computed(() => formatter.format(props.message.created_at))
         'border-cyan-900 bg-cyan-950': !message.is_from_user,
       }"
     >
-      <div
+      <MessageParser
         v-if="message.text.length"
-        class="message"
-        v-html="marked.parse(message.text)"
+        :content="message.text"
       />
       <div v-else-if="isAwaitingResponse">
         <UIcon name="svg-spinners:3-dots-bounce" class="text-lg" />
@@ -68,11 +66,7 @@ const formattedTime = computed(() => formatter.format(props.message.created_at))
 .content {
   @apply max-w-[90%] md:max-w-[85%] lg:max-w-[80%] xl:max-w-[75%] 2xl:max-w-[70%];
   @apply w-fit px-5 py-3 rounded-xl border;
-  @apply whitespace-pre-wrap break-words overflow-hidden;
-}
-
-:deep(.message > *) {
-  @apply inline-block mb-8 last:mb-0;
+  @apply break-words overflow-hidden;
 }
 
 .slide-fade-enter-from,

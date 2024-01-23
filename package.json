@@ -28,14 +28,17 @@
   "dependencies": {
     "@langchain/community": "^0.0.19",
     "@langchain/core": "^0.1.17",
+    "highlight.js": "^11.9.0",
     "langchain": "^0.1.5",
     "marked": "^11.1.1",
+    "marked-highlight": "^2.1.0",
     "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.6.3",
     "@nuxt/ui": "^2.12.3",
     "@nuxtjs/fontaine": "^0.4.1",
+    "@nuxtjs/html-validator": "^1.6.0",
     "@types/uuid": "^9.0.7",
     "nuxt": "^3.9.3",
     "nuxt-security": "^1.0.1",

@@ -5,12 +5,16 @@
 @tailwind utilities;
 
 body {
-  @apply font-main font-normal;
+  @apply font-main font-normal box-border;
   @apply text-slate-700 dark:text-slate-200;
   @apply bg-slate-100 dark:bg-slate-900;
 }
 
 code {
   @apply bg-slate-950 text-cyan-100 py-1 px-2 rounded-lg text-sm;
-  @apply inline-block whitespace-pre-wrap break-words align-middle;
+  @apply inline-block align-middle max-w-full overflow-y-auto;
+}
+
+.hljs {
+  @apply !bg-slate-950
 }

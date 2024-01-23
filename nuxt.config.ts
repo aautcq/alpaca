@@ -10,6 +10,7 @@ export default defineNuxtConfig({
     '@nuxtjs/fontaine',
     'nuxt-security',
     '@nuxt/ui',
+    '@nuxtjs/html-validator',
   ],
   app: {
     head: {

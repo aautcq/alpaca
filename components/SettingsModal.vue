@@ -16,8 +16,8 @@ const state = reactive({
 
 function updateSettings() {
   prePrompt.value = state.pre_prompt
-  emit('updatePrePrompt')
   localIsOpen.value = false
+  emit('updatePrePrompt')
 }
 </script>
 
