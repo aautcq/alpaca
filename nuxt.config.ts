@@ -2,7 +2,7 @@
 
 const title = 'Matey'
 const description = 'Matey is a chatbot using a locally running LLM for personal use'
-const image = ''
+const image = 'https://memowise.s3.eu-west-3.amazonaws.com/android-chrome-192x192.png'
 
 export default defineNuxtConfig({
   devtools: { enabled: true },
@@ -11,7 +11,9 @@ export default defineNuxtConfig({
     'nuxt-security',
     '@nuxt/ui',
     '@nuxtjs/html-validator',
+    '@vite-pwa/nuxt',
   ],
+  ssr: false,
   app: {
     head: {
       title,
@@ -42,6 +44,38 @@ export default defineNuxtConfig({
         'script-src': ['\'self\'', '\'unsafe-inline\''],
         'base-uri': ['\'self\''],
       },
+    },
+  },
+  pwa: {
+    registerType: 'autoUpdate',
+    workbox: {
+      globPatterns: ['**/*.{js,ts,css,html}'],
+      sourcemap: true,
+    },
+    devOptions: {
+      enabled: false,
+    },
+    manifest: {
+      name: title,
+      short_name: title,
+      description,
+      theme_color: '#0c0a09',
+      background_color: '#0c0a09',
+      start_url: '/',
+      display: 'standalone',
+      display_override: ['window-controls-overlay'],
+      icons: [
+        {
+          src: '/android-chrome-192x192.png',
+          sizes: '192x192',
+          type: 'image/png',
+        },
+        {
+          src: '/android-chrome-512x512.png',
+          sizes: '512x512',
+          type: 'image/png',
+        },
+      ],
     },
   },
   runtimeConfig: {
