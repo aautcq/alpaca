@@ -12,6 +12,34 @@ const conversation = reactive<Conversation>({
   messages: [],
 })
 
+async function streamResponse(input: string, messageId: string) {
+  const message = conversation.messages.find(m => m.id === messageId)
+  if (!message)
+    return
+
+  const data = await stream(input, conversation)
+
+  for await (const chunk of data) {
+    // stop if user clicked stop button
+    if (!isGeneratingResponse.value)
+      break
+
+    isAwaitingResponse.value = false
+    message.text += chunk
+    window.scrollTo(0, document.body.scrollHeight)
+  }
+
+  await data.cancel()
+  await data.return()
+  isGeneratingResponse.value = false
+  isAwaitingResponse.value = false
+
+  // scroll to bottom and focus textarea
+  await nextTick()
+  window.scrollTo(0, document.body.scrollHeight)
+  inputTextarea.value?.focus()
+}
+
 async function getResponse(input: string) {
   if (!input.trim().length)
     return
@@ -25,37 +53,36 @@ async function getResponse(input: string) {
     text: input,
     is_from_user: true,
     created_at: new Date(),
+    has_errored: false,
   })
   await nextTick()
   window.scrollTo(0, document.body.scrollHeight)
 
   // add bot message
-  const answerId = uuidv4()
+  const messageId = uuidv4()
   conversation.messages.push({
-    id: answerId,
+    id: messageId,
     text: '',
     is_from_user: false,
     created_at: new Date(),
+    has_errored: false,
   })
-  const data = await stream(input, conversation)
-  for await (const chunk of data) {
-    // stop if user clicked stop button
-    if (!isGeneratingResponse.value)
-      break
 
-    isAwaitingResponse.value = false
-    const message = conversation.messages.find(m => m.id === answerId)
-    if (message)
-      message.text += chunk
-    window.scrollTo(0, document.body.scrollHeight)
-  }
+  await streamResponse(input, messageId)
+}
 
-  isGeneratingResponse.value = false
+async function regenerateLastResponse() {
+  isAwaitingResponse.value = true
+  isGeneratingResponse.value = true
 
-  // scroll to bottom and focus textarea
-  await nextTick()
-  window.scrollTo(0, document.body.scrollHeight)
-  inputTextarea.value?.focus()
+  const lastAiMessage = conversation.messages[conversation.messages.length - 1]
+  lastAiMessage.text = ''
+  lastAiMessage.created_at = new Date()
+
+  await streamResponse(
+    conversation.messages[conversation.messages.length - 2].text,
+    lastAiMessage.id,
+  )
 }
 
 async function updatePrePromt() {
@@ -68,6 +95,14 @@ async function clearChat() {
   conversation.messages = []
   await nextTick()
   inputTextarea.value?.focus()
+}
+
+async function stopGeneration() {
+  isGeneratingResponse.value = false
+  isAwaitingResponse.value = false
+  const lastAiMessage = conversation.messages[conversation.messages.length - 1]
+  if (!lastAiMessage?.text.length)
+    lastAiMessage.has_errored = true
 }
 </script>
 
@@ -91,8 +126,10 @@ async function clearChat() {
             :key="message.id"
             :message="message"
             :is-awaiting-response="isAwaitingResponse"
-            :show-stop-btn="isGeneratingResponse && index === conversation.messages.length - 1"
-            @stop="isGeneratingResponse = false"
+            :is-being-generated="isGeneratingResponse"
+            :is-last="index === conversation.messages.length - 1"
+            @stop="stopGeneration"
+            @redo="regenerateLastResponse"
           />
         </TransitionGroup>
         <ConversationPlaceholder v-else />
