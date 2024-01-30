@@ -16,6 +16,34 @@ const formatter = new Intl.DateTimeFormat('en-US', {
   hour12: false,
 })
 const formattedTime = computed(() => formatter.format(props.message.created_at))
+
+const displayCopyCodeBtn = computed(() =>
+  props.message.text.includes('```')
+  && !props.isBeingGenerated
+  && !props.isAwaitingResponse,
+)
+
+const messageParserRef = ref()
+const codeBlocksIds = ref<string[]>([])
+const isCopied = reactive<Record<string, boolean>>({})
+
+watch(() => displayCopyCodeBtn.value, (newVal) => {
+  if (newVal) {
+    const codeBlocks = messageParserRef.value?.$el.querySelectorAll('code.hljs')
+    if (codeBlocks.length)
+      codeBlocksIds.value = Array.from(codeBlocks).map(el => (el as Element).id)
+  }
+})
+
+function copyCodeContent(id: string) {
+  const el = document.getElementById(id)
+  if (!el)
+    return
+
+  navigator.clipboard.writeText(el.textContent || '')
+  isCopied[id] = true
+  setTimeout(() => isCopied[id] = false, 1000)
+}
 </script>
 
 <template>
@@ -37,6 +65,7 @@ const formattedTime = computed(() => formatter.format(props.message.created_at))
     >
       <MessageParser
         v-if="message.text.length"
+        ref="messageParserRef"
         :content="message.text"
       />
       <div v-else-if="isLast && isAwaitingResponse">
@@ -72,6 +101,24 @@ const formattedTime = computed(() => formatter.format(props.message.created_at))
         </UButton>
       </div>
     </Transition>
+    <div v-if="displayCopyCodeBtn && codeBlocksIds.length">
+      <Teleport
+        v-for="id in codeBlocksIds"
+        :key="id"
+        :to="`#${id}`"
+        :disabled="!displayCopyCodeBtn || !id"
+      >
+        <UButton
+          :icon="isCopied[id] ? 'mdi:clipboard-check-outline' : 'mdi:clipboard-outline'"
+          :title="isCopied[id] ? 'Copied!' : 'Copy'"
+          :color="isCopied[id] ? 'primary' : 'gray'"
+          size="2xs"
+          square
+          class="absolute top-1 right-1 code-copy-btn"
+          @click="copyCodeContent(id)"
+        />
+      </Teleport>
+    </div>
   </li>
 </template>
 
@@ -89,6 +136,24 @@ const formattedTime = computed(() => formatter.format(props.message.created_at))
 .error {
   @apply px-2 py-1 text-sm text-orange-500 bg-orange-950/50;
   @apply border-orange-900 rounded;
+}
+
+:deep(code) {
+  @apply bg-slate-950 text-cyan-100 py-1 px-2 rounded-lg text-sm;
+  @apply inline-block align-middle max-w-full overflow-y-auto;
+}
+
+:deep(.hljs) {
+  @apply bg-slate-950;
+  @apply relative;
+}
+
+.hljs > button.code-copy-btn {
+  @apply opacity-0 transition-opacity;
+}
+
+.hljs:hover > button.code-copy-btn {
+  @apply opacity-100;
 }
 
 .slide-fade-from-top-enter-from,
