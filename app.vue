@@ -2,7 +2,7 @@
 import { v4 as uuidv4 } from 'uuid'
 import type { Conversation } from '~/types'
 
-let stream = useLlm()
+let stream = await useLlm()
 
 const inputTextarea = ref()
 const isAwaitingResponse = ref(false)
@@ -86,7 +86,7 @@ async function regenerateLastResponse() {
 }
 
 async function updatePrePromt() {
-  stream = useLlm()
+  stream = await useLlm()
   await nextTick()
   inputTextarea.value?.focus()
 }

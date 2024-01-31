@@ -139,12 +139,15 @@ function copyCodeContent(id: string) {
 }
 
 :deep(code) {
-  @apply bg-slate-950 text-cyan-100 py-1 px-2 rounded-lg text-sm;
+  @apply py-1 px-2 rounded-lg text-sm;
   @apply inline-block align-middle max-w-full overflow-y-auto;
 }
 
 :deep(.hljs) {
   @apply bg-slate-950;
+}
+
+:deep(pre:has(> code.hljs)) {
   @apply relative;
 }
 

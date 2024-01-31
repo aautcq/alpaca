@@ -33,10 +33,10 @@ Start the development server on `http://localhost:3000`:
 pnpm run dev
 ```
 
-## Improvements
+## Upcoming improvements
 
 - [ ] Save chats in local storage or local DB
-- [ ] Add document upload for context
+- [ ] Add document upload for context: several files, better UI, maximum size
 
 ## Useful links
 
