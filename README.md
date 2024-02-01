@@ -1,10 +1,10 @@
 # Matey
 
-This is a personal LLM UI built with [Nuxt 3](https://v3.nuxtjs.org/) and [LangChain](https://js.langchain.com/).
+This is a personal LLM UI built with [Nuxt 3](https://v3.nuxtjs.org/) and [LangChain](https://js.langchain.com/). It communicates with a local [Ollama](https://ollama.ai/) server to generate responses.
 
 ## Setup
 
-Make sure to install the dependencies:
+Make sure to install the dependencies with PNPM or whatever package manager you prefer:
 
 ```bash
 pnpm install
@@ -23,7 +23,7 @@ OLLAMA_MODEL=
 OLLAMA_URL=
 ```
 
-The `OLLAMA_MODEL` variable should be the name of the model you are running with Ollama. The `OLLAMA_URL` variable should be the URL of the Ollama server, which is `http://localhost:11434` by default.
+The `OLLAMA_MODEL` variable should hold the name of the model you are running with Ollama, e.g., `mistral`. The `OLLAMA_URL` variable should hold the URL of the Ollama server, which is `http://localhost:11434` by default.
 
 ## Development Server
 
@@ -36,7 +36,6 @@ pnpm run dev
 ## Upcoming improvements
 
 - [ ] Save chats in local storage or local DB
-- [ ] Add document upload for context: several files, better UI, maximum size
 
 ## Useful links
 

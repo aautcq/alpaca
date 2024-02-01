@@ -35,7 +35,7 @@ const isClearModalOpen = ref(false)
         />
       </div>
     </div>
-    <SettingsModal
+    <SettingsMenu
       v-model:is-open="isSettingsModalOpen"
       @update-pre-prompt="emit('updatePrePrompt')"
     />

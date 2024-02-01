@@ -9,3 +9,11 @@ export interface Message {
 export interface Conversation {
   messages: Message[]
 }
+
+export interface ContextFile {
+  id: string
+  name: string
+  size: number
+  last_modified: Date
+  content: Blob
+}

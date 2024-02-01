@@ -141,6 +141,7 @@ async function stopGeneration() {
       />
     </main>
     <TheFooter />
+    <UNotifications />
   </div>
 </template>
 

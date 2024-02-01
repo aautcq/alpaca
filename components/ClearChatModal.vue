@@ -15,8 +15,8 @@ function clearChat() {
 </script>
 
 <template>
-  <CustomModal v-model:is-open="localIsOpen">
-    <div class="flex flex-col gap-y-5">
+  <UModal v-model="localIsOpen">
+    <div class="flex flex-col gap-y-5 px-10 py-5">
       <h2 class="text-center text-2xl font-light">
         Are you sure?
       </h2>
@@ -35,5 +35,5 @@ function clearChat() {
         </UButton>
       </div>
     </div>
-  </CustomModal>
+  </UModal>
 </template>

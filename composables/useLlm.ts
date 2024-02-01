@@ -5,8 +5,8 @@ import { AIMessage, HumanMessage } from '@langchain/core/messages'
 import { TextLoader } from 'langchain/document_loaders/fs/text'
 import { WebPDFLoader } from 'langchain/document_loaders/web/pdf'
 import { formatDocumentsAsString } from 'langchain/util/document'
-import type { Document } from '@langchain/core/documents'
-import type { Conversation, Message } from '~/types'
+import { Document } from '@langchain/core/documents'
+import type { ContextFile, Conversation, Message } from '~/types'
 
 function formatChatHistory(messages: Message[]) {
   const history = messages
@@ -25,22 +25,21 @@ export async function useLlm() {
 
   const prePrompt = useState<string>('prePromt', () => 'You are a nice chatbot.')
 
-  const savedFile = useState<{ name: string, content: Blob }>('file', () => ({
-    name: '',
-    content: new Blob(),
-  }))
+  const savedFiles = useState<ContextFile[]>('files', () => ([]))
 
-  // file loader
-  let loader: TextLoader | WebPDFLoader | null = null
-  let docs: Document[] = []
+  const loadedFiles = savedFiles.value.map(async (file) => {
+    let loader: TextLoader | WebPDFLoader | null = null
+    if (file.content.type === 'text/plain')
+      loader = new TextLoader(file.content)
+    else if (file.content.type === 'application/pdf')
+      loader = new WebPDFLoader(file.content) // not working yet
 
-  if (savedFile.value.content.type === 'text/plain')
-    loader = new TextLoader(savedFile.value.content)
-  else if (savedFile.value.content.type === 'application/pdf')
-    loader = new WebPDFLoader(savedFile.value.content) // not working yet
+    return loader
+      ? await loader.load()
+      : Promise.resolve([new Document({ pageContent: '' })]) // empty document
+  })
 
-  if (loader)
-    docs = await loader.load()
+  const docs = (await Promise.all(loadedFiles)).flat()
 
   const chatModel = new ChatOllama({
     baseUrl: config.public.ollamaUrl,
