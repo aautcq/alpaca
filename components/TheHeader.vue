@@ -3,10 +3,8 @@ defineProps<{
   showClearChatBtn: boolean
 }>()
 
-const emit = defineEmits(['clearChat', 'updatePrePrompt'])
-
-const isSettingsModalOpen = ref(false)
-const isClearModalOpen = ref(false)
+const isSettingsMenuOpen = useState<boolean>('isSettingsMenuOpen')
+const isClearModalOpen = useState<boolean>('isClearModalOpen')
 </script>
 
 <template>
@@ -31,18 +29,10 @@ const isClearModalOpen = ref(false)
           title="Settings"
           color="gray"
           size="sm"
-          @click="isSettingsModalOpen = true"
+          @click="isSettingsMenuOpen = true"
         />
       </div>
     </div>
-    <SettingsMenu
-      v-model:is-open="isSettingsModalOpen"
-      @update-pre-prompt="emit('updatePrePrompt')"
-    />
-    <ClearChatModal
-      v-model:is-open="isClearModalOpen"
-      @confirm="emit('clearChat')"
-    />
   </header>
 </template>
 

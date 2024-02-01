@@ -8,6 +8,10 @@ const inputTextarea = ref()
 const isAwaitingResponse = ref(false)
 const isGeneratingResponse = ref(false)
 
+const isLoadingStream = useState<boolean>('isLoadingStream')
+const isSettingsMenuOpen = useState<boolean>('isSettingsMenuOpen', () => false)
+const isClearModalOpen = useState<boolean>('isClearModalOpen', () => false)
+
 const conversation = reactive<Conversation>({
   messages: [],
 })
@@ -87,15 +91,21 @@ async function regenerateLastResponse() {
 
 async function updatePrePromt() {
   stream = await useLlm()
-  await nextTick()
-  inputTextarea.value?.focus()
 }
 
 async function clearChat() {
   conversation.messages = []
-  await nextTick()
-  inputTextarea.value?.focus()
 }
+
+watch(() => isSettingsMenuOpen.value, (newVal) => {
+  if (!newVal)
+    setTimeout(() => inputTextarea.value?.focus(), 600) // wait for the transition to finish
+})
+
+watch(() => isClearModalOpen.value, (newVal) => {
+  if (!newVal)
+    setTimeout(() => inputTextarea.value?.focus(), 600) // wait for the transition to finish
+})
 
 async function stopGeneration() {
   isGeneratingResponse.value = false
@@ -110,13 +120,16 @@ async function stopGeneration() {
   <div>
     <TheHeader
       :show-clear-chat-btn="conversation.messages.length > 0 && !isGeneratingResponse"
-      @clear-chat="clearChat"
-      @update-pre-prompt="updatePrePromt"
     />
     <main class="container">
       <Transition name="fade" mode="out-in">
+        <ConversationPlaceholder
+          v-if="isLoadingStream"
+          icon="svg-spinners:blocks-wave"
+          content="Loading..."
+        />
         <TransitionGroup
-          v-if="conversation.messages.length"
+          v-else-if="conversation.messages.length"
           name="list"
           tag="ul"
           class="pb-20 pt-10"
@@ -132,7 +145,11 @@ async function stopGeneration() {
             @redo="regenerateLastResponse"
           />
         </TransitionGroup>
-        <ConversationPlaceholder v-else />
+        <ConversationPlaceholder
+          v-else
+          icon="material-symbols:contact-support"
+          content="How can I help you?"
+        />
       </Transition>
       <NewMessage
         ref="inputTextarea"
@@ -142,6 +159,14 @@ async function stopGeneration() {
     </main>
     <TheFooter />
     <UNotifications />
+    <SettingsMenu
+      v-model:is-open="isSettingsMenuOpen"
+      @update-pre-prompt="updatePrePromt"
+    />
+    <ClearChatModal
+      v-model:is-open="isClearModalOpen"
+      @confirm="clearChat"
+    />
   </div>
 </template>
 

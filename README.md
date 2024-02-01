@@ -35,7 +35,7 @@ pnpm run dev
 
 ## Upcoming improvements
 
-- [ ] Save chats in local storage or local DB
+- Save chats in local DB
 
 ## Useful links
 

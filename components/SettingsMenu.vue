@@ -115,7 +115,7 @@ function beforeLeave(el: Element) {
         <TransitionGroup
           tag="ul"
           name="files-list"
-          class="mt-4 flex gap-x-3 flex-wrap"
+          class="flex gap-x-1 flex-wrap"
           @before-leave="beforeLeave"
         >
           <li key="add">

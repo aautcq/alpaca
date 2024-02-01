@@ -1,8 +1,13 @@
+<script setup lang="ts">
+defineProps<{ icon: string, content?: string }>()
+</script>
+
 <template>
   <div class="placeholder">
-    <UIcon name="material-symbols:contact-support" class="text-4xl" />
+    <UIcon :name="icon" class="text-4xl" />
     <h1 class="text-2xl font-light">
-      How can I help you?
+      {{ content }}
+      <slot />
     </h1>
   </div>
 </template>

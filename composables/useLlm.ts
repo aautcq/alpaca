@@ -23,9 +23,13 @@ function formatChatHistory(messages: Message[]) {
 export async function useLlm() {
   const config = useRuntimeConfig()
 
+  const isLoadingStream = useState<boolean>('isLoadingStream', () => false)
+
   const prePrompt = useState<string>('prePromt', () => 'You are a nice chatbot.')
 
   const savedFiles = useState<ContextFile[]>('files', () => ([]))
+
+  isLoadingStream.value = true
 
   const loadedFiles = savedFiles.value.map(async (file) => {
     let loader: TextLoader | WebPDFLoader | null = null
@@ -57,6 +61,8 @@ export async function useLlm() {
     new MessagesPlaceholder('chat_history'),
     ['user', '{input}'],
   ])
+
+  isLoadingStream.value = false
 
   return async (input: string, conversation: Conversation) => {
     return await prompt.pipe(chatModel).pipe(new StringOutputParser()).stream({
