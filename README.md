@@ -1,10 +1,10 @@
 # Matey
 
-This is a personal LLM UI built with [Nuxt 3](https://v3.nuxtjs.org/) and [LangChain](https://js.langchain.com/). It communicates with a local [Ollama](https://ollama.ai/) server to generate responses.
+This is a personal LLM UI built with [Nuxt 3](https://v3.nuxtjs.org/) and [LangChain](https://js.langchain.com/). It communicates with a local [Ollama](https://ollama.ai/) server to generate responses. Built with [Electron](https://www.electronjs.org/fr/docs/latest/) into a desktop app.
 
 ## Setup
 
-Make sure to install the dependencies with PNPM or whatever package manager you prefer:
+Make sure to install the dependencies with `PNPM` or whatever package manager you prefer:
 
 ```bash
 pnpm install
@@ -33,11 +33,24 @@ Start the development server on `http://localhost:3000`:
 pnpm run dev
 ```
 
+## Build
+
+Build the project for production:
+
+```bash
+pnpm run build
+```
+
+Checkout the `release` folder for the built app.
+
+## Linting
+
+Run the linter:
+
+```bash
+pnpm run lint
+```
+
 ## Upcoming improvements
 
 - Save chats in local DB
-
-## Useful links
-
-- [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction)
-- [LangChain documentation](https://js.langchain.com/docs/get_started/quickstart)

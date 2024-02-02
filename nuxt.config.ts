@@ -1,8 +1,28 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import fs from 'node:fs'
+import path from 'node:path'
+import process from 'node:process'
+import pkg from './package.json'
 
 const title = 'Matey'
 const description = 'Matey is a chatbot using a locally running LLM for personal use'
 const image = 'https://memowise.s3.eu-west-3.amazonaws.com/android-chrome-192x192.png'
+
+fs.rmSync(path.join(__dirname, 'dist-electron'), { recursive: true, force: true })
+
+const viteElectronBuildConfig = {
+  build: {
+    minify: process.env.NODE_ENV === 'production',
+    rollupOptions: {
+      external: Object.keys('dependencies' in pkg ? pkg.dependencies : {}),
+    },
+  },
+  resolve: {
+    alias: {
+      '~': __dirname,
+    },
+  },
+}
 
 export default defineNuxtConfig({
   devtools: { enabled: true },
@@ -10,14 +30,16 @@ export default defineNuxtConfig({
     '@nuxtjs/fontaine',
     'nuxt-security',
     '@nuxt/ui',
-    '@nuxtjs/html-validator',
-    '@vite-pwa/nuxt',
+    'nuxt-electron',
   ],
   ssr: false,
+  experimental: {
+    appManifest: false,
+  },
   app: {
     head: {
       title,
-      base: { href: '/' },
+      htmlAttrs: { lang: 'en' },
       meta: [
         { name: 'viewport', content: 'width=device-width, initial-scale=1.0' },
         { name: 'fragment', content: '!' },
@@ -46,37 +68,17 @@ export default defineNuxtConfig({
       },
     },
   },
-  pwa: {
-    registerType: 'autoUpdate',
-    workbox: {
-      globPatterns: ['**/*.{js,ts,css,html}'],
-      sourcemap: true,
-    },
-    devOptions: {
-      enabled: false,
-    },
-    manifest: {
-      name: title,
-      short_name: title,
-      description,
-      theme_color: '#0c0a09',
-      background_color: '#0c0a09',
-      start_url: '/',
-      display: 'standalone',
-      display_override: ['window-controls-overlay'],
-      icons: [
-        {
-          src: '/android-chrome-192x192.png',
-          sizes: '192x192',
-          type: 'image/png',
+  electron: {
+    build: [
+      { entry: 'electron/main.ts', vite: viteElectronBuildConfig },
+      {
+        entry: 'electron/preload.ts',
+        onstart(options) {
+          options.reload()
         },
-        {
-          src: '/android-chrome-512x512.png',
-          sizes: '512x512',
-          type: 'image/png',
-        },
-      ],
-    },
+        vite: viteElectronBuildConfig,
+      },
+    ],
   },
   runtimeConfig: {
     ollamaUrl: import.meta.env.OLLAMA_URL,
