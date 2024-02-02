@@ -3,6 +3,8 @@
  */
 {
   "appId": "alpaca-aautcq",
+  "productName": "Alpaca",
+  "copyright": "Copyright © 2024 Adrien Autricque",
   "asar": true,
   "directories": {
     "buildResources": "assets/icons/*",
@@ -16,8 +18,7 @@
   "mac": {
     "artifactName": "${productName}_${version}.${ext}",
     "icon": "assets/icons/icon.png",
-    "target": ["dmg"],
-    "publish": ["github"]
+    "target": ["dmg"]
   },
   "win": {
     "artifactName": "${productName}_${version}.${ext}",
@@ -29,5 +30,10 @@
     "perMachine": false,
     "allowToChangeInstallationDirectory": true,
     "deleteAppDataOnUninstall": false
+  },
+  "publish": {
+    "provider": "github",
+    "owner": "aautcq",
+    "repo": "alpaca"
   }
 }
