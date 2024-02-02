@@ -1,4 +1,4 @@
-# Matey
+# Alpaca
 
 This is a personal LLM UI built with [Nuxt 3](https://v3.nuxtjs.org/) and [LangChain](https://js.langchain.com/). It communicates with a local [Ollama](https://ollama.ai/) server to generate responses. Built with [Electron](https://www.electronjs.org/fr/docs/latest/) into a desktop app.
 

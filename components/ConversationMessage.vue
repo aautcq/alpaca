@@ -52,7 +52,7 @@ function copyCodeContent(id: string) {
       class="header"
       :class="{ 'text-end': message.is_from_user }"
     >
-      <span>{{ message.is_from_user ? 'You' : 'Matey' }}</span>
+      <span>{{ message.is_from_user ? 'You' : 'Alpaca' }}</span>
       &middot;
       <span>{{ formattedTime }}</span>
     </div>

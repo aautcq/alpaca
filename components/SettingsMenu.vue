@@ -99,7 +99,7 @@ function beforeLeave(el: Element) {
         title="Heads up!"
       >
         <template #description>
-          You can customize your Matey experience here.
+          You can customize your Alpaca experience here.
         </template>
       </UAlert>
       <UFormGroup label="Ollama server port">

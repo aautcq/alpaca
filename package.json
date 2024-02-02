@@ -1,17 +1,17 @@
 {
-  "name": "matey",
+  "name": "alpaca",
   "version": "0.1.0",
   "private": true,
-  "description": "Matey is a chatbot using a locally running LLM for personal use",
+  "description": "Alpaca is a chatbot using a locally running LLM for personal use",
   "author": "Adrien Autricque <adrien.autricque@gmail.com>",
   "license": "MIT",
-  "homepage": "https://github.com/aautcq/matey#readme",
+  "homepage": "https://github.com/aautcq/alpaca#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/aautcq/matey.git"
+    "url": "git+https://github.com/aautcq/alpaca.git"
   },
   "bugs": {
-    "url": "https://github.com/aautcq/matey/issues"
+    "url": "https://github.com/aautcq/alpaca/issues"
   },
   "keywords": [
     "Adrien Autricque",

@@ -8,7 +8,7 @@ const isClearModalOpen = useState<boolean>('isClearModalOpen')
 <template>
   <header class="header">
     <div class="container flex items-center justify-between">
-      <div>Matey</div>
+      <div>Alpaca</div>
       <div class="flex items-center justify-center gap-x-1">
         <Transition name="header-clear" mode="out-in">
           <UButton

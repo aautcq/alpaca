@@ -4,8 +4,8 @@ import path from 'node:path'
 import process from 'node:process'
 import pkg from './package.json'
 
-const title = 'Matey'
-const description = 'Matey is a chatbot using a locally running LLM for personal use'
+const title = 'Alpaca'
+const description = 'Alpaca is a chatbot using a locally running LLM for personal use'
 const image = 'https://memowise.s3.eu-west-3.amazonaws.com/android-chrome-192x192.png'
 
 fs.rmSync(path.join(__dirname, 'dist-electron'), { recursive: true, force: true })
