@@ -21,12 +21,13 @@ function formatChatHistory(messages: Message[]) {
 }
 
 export async function useLlm() {
-  const config = useRuntimeConfig()
-
+  const port = useState<number>('port')
   const prePrompt = useState<string>('prePromt', () => 'You are a nice chatbot.')
   const savedFiles = useState<ContextFile[]>('files', () => ([]))
   const availableModels = useState<LLMModel[]>('models')
   const model = useState<LLMModel>('model', () => availableModels.value[0])
+
+  const ollamaServerUrl = computed(() => `http://localhost:${port.value}`)
 
   const loadedFiles = savedFiles.value.map(async (file) => {
     let loader: TextLoader | WebPDFLoader | null = null
@@ -42,10 +43,8 @@ export async function useLlm() {
 
   const docs = (await Promise.all(loadedFiles)).flat()
 
-  console.log(model.value)
-
   const chatModel = new ChatOllama({
-    baseUrl: config.public.ollamaUrl,
+    baseUrl: ollamaServerUrl.value,
     model: model.value.name,
   })
 

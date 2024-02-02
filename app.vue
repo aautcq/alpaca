@@ -1,11 +1,24 @@
 <script setup lang="ts">
 import { v4 as uuidv4 } from 'uuid'
-import type { Conversation } from '~/types'
+import type { Conversation, LLMModel } from '~/types'
+import type { IterableReadableStream } from '@langchain/core/utils/stream'
 
 const isLoadingStream = useState<boolean>('isLoadingStream', () => true)
 
 await useOllamaModels()
-let stream = await useLlm()
+
+const port = useState<number>('port')
+const availableModels = useState<LLMModel[]>('models')
+const isOllamaUp = useState<boolean>('isOllamaUp')
+const isLLmReady = computed(
+  () => isOllamaUp.value && availableModels.value.length > 0
+)
+
+let stream: ((input: string, conversation: Conversation) => Promise<IterableReadableStream<string>>) | null = null
+
+if (isLLmReady.value) {
+  stream = await useLlm()
+}
 
 isLoadingStream.value = false
 
@@ -20,6 +33,8 @@ const conversation = reactive<Conversation>({
 })
 
 async function streamResponse(input: string, messageId: string) {
+  if (!stream || !isLLmReady.value)
+    return
   const message = conversation.messages.find(m => m.id === messageId)
   if (!message)
     return
@@ -94,7 +109,8 @@ async function regenerateLastResponse() {
 
 async function updateSettings() {
   isLoadingStream.value = true
-  stream = await useLlm()
+  await useOllamaModels()
+  stream = isLLmReady.value ? await useLlm() : null
   isLoadingStream.value = false
 }
 
@@ -133,6 +149,36 @@ async function stopGeneration() {
           icon="svg-spinners:blocks-wave"
           content="Loading..."
         />
+        <ConversationPlaceholder v-else-if="!isOllamaUp" icon="solar:sad-square-outline">
+          Ollama is not running or the server port ({{ port }}) is incorrect.
+          <template #description>
+            <div>
+              To install Ollama and a model, go to
+              <ULink
+                to="https://ollama.ai"
+                target="_blank"
+                active-class="text-primary"
+                inactive-class="link"
+                title="Ollama home page"
+              >ollama.ai</ULink>
+            </div>
+          </template>
+        </ConversationPlaceholder>
+        <ConversationPlaceholder v-else-if="!availableModels.length" icon="solar:sad-square-outline">
+          No models available. Please check your settings.
+          <template #description>
+            <div>
+              To install a model, go to
+              <ULink
+                to="https://ollama.ai/library"
+                target="_blank"
+                active-class="text-primary"
+                inactive-class="link"
+                title="Ollama models library"
+              >ollama.ai/library</ULink>
+            </div>
+          </template>
+        </ConversationPlaceholder>
         <TransitionGroup
           v-else-if="conversation.messages.length"
           name="list"
@@ -157,6 +203,7 @@ async function stopGeneration() {
         />
       </Transition>
       <NewMessage
+        v-if="isLLmReady"
         ref="inputTextarea"
         :is-generating-response="isGeneratingResponse"
         @sent="getResponse"

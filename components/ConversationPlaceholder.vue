@@ -5,10 +5,11 @@ defineProps<{ icon: string, content?: string }>()
 <template>
   <div class="placeholder">
     <UIcon :name="icon" class="text-4xl" />
-    <h1 class="text-2xl font-light">
+    <h1 class="text-2xl font-light text-center">
       {{ content }}
       <slot />
     </h1>
+    <slot name="description" />
   </div>
 </template>
 

@@ -25,6 +25,7 @@ const prePrompt = useState<string>('prePromt')
 const savedFiles = useState<ContextFile[]>('files')
 
 const state = reactive({
+  port: useState<number>('port'),
   pre_prompt: useState<string>('prePromt'),
 })
 
@@ -96,8 +97,26 @@ function beforeLeave(el: Element) {
         color="primary"
         variant="soft"
         title="Heads up!"
-        description="You can customize your Matey experience here by setting a pre-promt and context files."
-      />
+      >
+        <template #description>
+          You can customize your Matey experience here.
+        </template>
+      </UAlert>
+      <UFormGroup label="Ollama server port">
+        <UButtonGroup orientation="horizontal" class="w-full">
+          <UButton color="gray" disabled class="!cursor-default font-thin">
+            http://localhost:
+          </UButton>
+          <UInput
+            v-model="state.port"
+            placeholder="11434"
+            type="number"
+            autofocus
+            leading
+            class="w-full"
+          />
+        </UButtonGroup>
+      </UFormGroup>
       <UFormGroup v-if="availableModels.length > 1" label="LLM">
         <USelectMenu v-model="model" option-attribute="name" :options="availableModels">
           <template #option="{ option: model }">
@@ -114,7 +133,6 @@ function beforeLeave(el: Element) {
         <UTextarea
           v-model="state.pre_prompt"
           placeholder="You are a noice chatbot..."
-          autofocus
           autoresize
         />
       </UFormGroup>

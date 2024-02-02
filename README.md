@@ -6,29 +6,21 @@ This is a personal LLM UI built with [Nuxt 3](https://v3.nuxtjs.org/) and [LangC
 
 Make sure to install the dependencies with `PNPM` or whatever package manager you prefer:
 
-```bash
+```sh
 pnpm install
 ```
 
 Then, you will need to install [Ollama](https://ollama.ai/download) on your machine and run it with your model of choice using the command:
 
-```bash
+```sh
 ollama run <model_name>
 ```
-
-Then, you will need to create a `.env` file (based on the `.env.example` file: `cp .env.example .env`) in the root of the project and add the following variables:
-
-```bash
-OLLAMA_URL=
-```
-
-The `OLLAMA_URL` variable should hold the URL of the Ollama server, which is `http://localhost:11434` by default.
 
 ## Development Server
 
 Start the development server on `http://localhost:3000`:
 
-```bash
+```sh
 pnpm run dev
 ```
 
@@ -36,7 +28,7 @@ pnpm run dev
 
 Build the project for production:
 
-```bash
+```sh
 pnpm run build
 ```
 
@@ -46,10 +38,11 @@ Checkout the `release` folder for the built app.
 
 Run the linter:
 
-```bash
+```sh
 pnpm run lint
 ```
 
 ## Upcoming improvements
 
 - Save chats in local DB
+- Better name and logo

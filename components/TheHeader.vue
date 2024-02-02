@@ -1,7 +1,5 @@
 <script setup lang="ts">
-defineProps<{
-  showClearChatBtn: boolean
-}>()
+defineProps<{ showClearChatBtn: boolean }>()
 
 const isSettingsMenuOpen = useState<boolean>('isSettingsMenuOpen')
 const isClearModalOpen = useState<boolean>('isClearModalOpen')

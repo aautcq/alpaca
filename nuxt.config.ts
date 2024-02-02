@@ -79,13 +79,5 @@ export default defineNuxtConfig({
         vite: viteElectronBuildConfig,
       },
     ],
-  },
-  runtimeConfig: {
-    ollamaUrl: import.meta.env.OLLAMA_URL,
-    ollamaModel: import.meta.env.OLLAMA_MODEL,
-    public: {
-      ollamaUrl: import.meta.env.OLLAMA_URL,
-      ollamaModel: import.meta.env.OLLAMA_MODEL,
-    },
-  },
+  }
 })

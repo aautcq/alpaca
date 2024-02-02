@@ -11,6 +11,12 @@ body {
 }
 
 @layer components {
+  .link {
+    @apply text-slate-400 transition-colors underline;
+    @apply decoration-transparent decoration-1 underline-offset-2;
+    @apply hover:text-cyan-200 hover:decoration-cyan-200;
+  }
+
   .file-tag {
     @apply rounded px-2 py-0.5 border border-transparent transition-all;
     @apply hover:border-slate-700 max-w-28;

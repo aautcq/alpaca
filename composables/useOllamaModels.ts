@@ -15,16 +15,25 @@ function formatModel(model: OllamaModel) {
 }
 
 export async function useOllamaModels() {
-  const config = useRuntimeConfig()
-
+  const port = useState<number>('port', () => 11434)
+  const isOllamaUp = useState<boolean>('isOllamaUp', () => false)
   const availableModels = useState<LLMModel[]>('models', () => ([]))
+  const ollamaServerUrl = computed(() => `http://localhost:${port.value}`)
+
+  const { status: ollamaStatus } = await useFetch<{ models: OllamaModel[] }>(
+    `${ollamaServerUrl.value}`
+  );
+
+  isOllamaUp.value = ollamaStatus.value === 'success'
+
+  if (!isOllamaUp.value)
+    return
 
   const { data, status } = await useFetch<{ models: OllamaModel[] }>(
-    `${config.public.ollamaUrl}/api/tags`
+    `${ollamaServerUrl.value}/api/tags`
   );
 
   if (status.value === 'success' && data.value) {
-    console.log(data.value.models)
     availableModels.value = data.value.models.map(
       (model) => formatModel(model)
     );
