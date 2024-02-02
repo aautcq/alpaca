@@ -1,0 +1,32 @@
+/**
+ * @see https://www.electron.build/configuration/configuration
+ */
+{
+  "appId": "my.app.id",
+  "asar": true,
+  "directories": {
+    "buildResources": "assets/icons/*",
+    "output": "release/${version}"
+  },
+  "files": [
+    ".output/**/*",
+    "dist-electron",
+    "assets/icons/*"
+  ],
+  "mac": {
+    "artifactName": "${productName}_${version}.${ext}",
+    "icon": "assets/icons/icon.png",
+    "target": ["dmg"]
+  },
+  "win": {
+    "artifactName": "${productName}_${version}.${ext}",
+    "icon": "assets/icons/icon.png",
+    "target": [{ "target": "nsis", "arch": ["x64"] }]
+  },
+  "nsis": {
+    "oneClick": false,
+    "perMachine": false,
+    "allowToChangeInstallationDirectory": true,
+    "deleteAppDataOnUninstall": false
+  }
+}

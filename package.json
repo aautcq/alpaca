@@ -1,6 +1,6 @@
 {
   "name": "matey",
-  "type": "module",
+  "version": "0.1.0",
   "private": true,
   "description": "Matey is a chatbot using a locally running LLM for personal use",
   "author": "Adrien Autricque <adrien.autricque@gmail.com>",
@@ -10,13 +10,14 @@
     "aautcq",
     "LLM"
   ],
+  "main": "dist-electron/main.js",
   "engines": {
     "node": "~18.7.0",
     "npm": "~8.15.0"
   },
   "scripts": {
-    "build": "nuxt build",
     "dev": "nuxt dev",
+    "build": "nuxt generate && electron-builder",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
@@ -26,25 +27,26 @@
     "node_modules"
   ],
   "dependencies": {
-    "@langchain/community": "^0.0.19",
-    "@langchain/core": "^0.1.17",
-    "highlight.js": "^11.9.0",
-    "langchain": "^0.1.5",
-    "marked": "^11.1.1",
-    "marked-highlight": "^2.1.0",
-    "uuid": "^9.0.1"
+    "@langchain/community": "~0.0.26",
+    "@langchain/core": "~0.1.21",
+    "highlight.js": "~11.9.0",
+    "langchain": "~0.1.12",
+    "marked": "~11.2.0",
+    "marked-highlight": "~2.1.0",
+    "uuid": "~9.0.1"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^2.6.3",
-    "@nuxt/ui": "^2.12.3",
-    "@nuxtjs/fontaine": "^0.4.1",
-    "@nuxtjs/html-validator": "^1.6.0",
-    "@types/uuid": "^9.0.7",
-    "@vite-pwa/nuxt": "^0.4.0",
-    "nuxt": "^3.9.3",
-    "nuxt-security": "^1.0.1",
-    "sass": "^1.70.0",
-    "vue": "^3.4.14",
-    "vue-router": "^4.2.5"
+    "@antfu/eslint-config": "~2.6.3",
+    "@nuxt/ui": "~2.13.0",
+    "@nuxtjs/fontaine": "~0.4.1",
+    "@types/uuid": "~9.0.8",
+    "electron": "~28.2.1",
+    "electron-builder": "~24.9.1",
+    "nuxt": "~3.10.0",
+    "nuxt-electron": "~0.7.0",
+    "nuxt-security": "~1.1.0",
+    "sass": "~1.70.0",
+    "vite-plugin-electron": "~0.15.6",
+    "vite-plugin-electron-renderer": "~0.14.5"
   }
 }
