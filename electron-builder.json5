@@ -2,7 +2,7 @@
  * @see https://www.electron.build/configuration/configuration
  */
 {
-  "appId": "my.app.id",
+  "appId": "alpaca-aautcq",
   "asar": true,
   "directories": {
     "buildResources": "assets/icons/*",
@@ -16,7 +16,8 @@
   "mac": {
     "artifactName": "${productName}_${version}.${ext}",
     "icon": "assets/icons/icon.png",
-    "target": ["dmg"]
+    "target": ["dmg"],
+    "publish": ["github"]
   },
   "win": {
     "artifactName": "${productName}_${version}.${ext}",
