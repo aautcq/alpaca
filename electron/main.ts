@@ -3,7 +3,7 @@
 import process from 'node:process'
 import { release } from 'node:os'
 import path from 'node:path'
-import { BrowserWindow, app, shell } from 'electron'
+import { BrowserWindow, app, shell, nativeImage } from 'electron'
 
 // remove electron security warnings only in development mode
 process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = 'true'
@@ -23,15 +23,13 @@ if (!app.requestSingleInstanceLock()) {
 
 let win: BrowserWindow | null = null
 
-const preload = path.join(__dirname, 'preload.js')
 const distPath = path.join(__dirname, '../.output/public')
 const iconPath = path.join(__dirname, '../assets/icons/icon.png')
 
 async function createWindow() {
   win = new BrowserWindow({
-    icon: iconPath,
+    icon: nativeImage.createFromPath(iconPath),
     webPreferences: {
-      preload,
       // Warning: Enabling nodeIntegration and disabling contextIsolation is not secure in production
       // consider using contextBridge.exposeInMainWorld
       // read more on https://www.electronjs.org/docs/latest/tutorial/context-isolation

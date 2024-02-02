@@ -69,15 +69,6 @@ export default defineNuxtConfig({
     },
   },
   electron: {
-    build: [
-      { entry: 'electron/main.ts', vite: viteElectronBuildConfig },
-      {
-        entry: 'electron/preload.ts',
-        onstart(options) {
-          options.reload()
-        },
-        vite: viteElectronBuildConfig,
-      },
-    ],
+    build: [{ entry: 'electron/main.ts', vite: viteElectronBuildConfig }],
   }
 })
