@@ -5,6 +5,14 @@
   "description": "Matey is a chatbot using a locally running LLM for personal use",
   "author": "Adrien Autricque <adrien.autricque@gmail.com>",
   "license": "MIT",
+  "homepage": "https://github.com/aautcq/matey#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aautcq/matey.git"
+  },
+  "bugs": {
+    "url": "https://github.com/aautcq/matey/issues"
+  },
   "keywords": [
     "Adrien Autricque",
     "aautcq",

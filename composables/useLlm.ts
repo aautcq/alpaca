@@ -6,7 +6,7 @@ import { TextLoader } from 'langchain/document_loaders/fs/text'
 import { WebPDFLoader } from 'langchain/document_loaders/web/pdf'
 import { formatDocumentsAsString } from 'langchain/util/document'
 import { Document } from '@langchain/core/documents'
-import type { ContextFile, Conversation, Message } from '~/types'
+import type { ContextFile, Conversation, Message, LLMModel } from '~/types'
 
 function formatChatHistory(messages: Message[]) {
   const history = messages
@@ -23,13 +23,10 @@ function formatChatHistory(messages: Message[]) {
 export async function useLlm() {
   const config = useRuntimeConfig()
 
-  const isLoadingStream = useState<boolean>('isLoadingStream', () => false)
-
   const prePrompt = useState<string>('prePromt', () => 'You are a nice chatbot.')
-
   const savedFiles = useState<ContextFile[]>('files', () => ([]))
-
-  isLoadingStream.value = true
+  const availableModels = useState<LLMModel[]>('models')
+  const model = useState<LLMModel>('model', () => availableModels.value[0])
 
   const loadedFiles = savedFiles.value.map(async (file) => {
     let loader: TextLoader | WebPDFLoader | null = null
@@ -45,9 +42,11 @@ export async function useLlm() {
 
   const docs = (await Promise.all(loadedFiles)).flat()
 
+  console.log(model.value)
+
   const chatModel = new ChatOllama({
     baseUrl: config.public.ollamaUrl,
-    model: config.public.ollamaModel,
+    model: model.value.name,
   })
 
   // create prompt
@@ -61,8 +60,6 @@ export async function useLlm() {
     new MessagesPlaceholder('chat_history'),
     ['user', '{input}'],
   ])
-
-  isLoadingStream.value = false
 
   return async (input: string, conversation: Conversation) => {
     return await prompt.pipe(chatModel).pipe(new StringOutputParser()).stream({

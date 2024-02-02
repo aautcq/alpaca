@@ -17,3 +17,9 @@ export interface ContextFile {
   last_modified: Date
   content: Blob
 }
+
+export interface LLMModel {
+  name: string
+  nb_parameters: string
+  updated_at: Date
+}

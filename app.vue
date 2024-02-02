@@ -2,13 +2,16 @@
 import { v4 as uuidv4 } from 'uuid'
 import type { Conversation } from '~/types'
 
+const isLoadingStream = useState<boolean>('isLoadingStream', () => true)
+
+await useOllamaModels()
 let stream = await useLlm()
+
+isLoadingStream.value = false
 
 const inputTextarea = ref()
 const isAwaitingResponse = ref(false)
 const isGeneratingResponse = ref(false)
-
-const isLoadingStream = useState<boolean>('isLoadingStream')
 const isSettingsMenuOpen = useState<boolean>('isSettingsMenuOpen', () => false)
 const isClearModalOpen = useState<boolean>('isClearModalOpen', () => false)
 
@@ -89,8 +92,10 @@ async function regenerateLastResponse() {
   )
 }
 
-async function updatePrePromt() {
+async function updateSettings() {
+  isLoadingStream.value = true
   stream = await useLlm()
+  isLoadingStream.value = false
 }
 
 async function clearChat() {
@@ -161,7 +166,7 @@ async function stopGeneration() {
     <UNotifications />
     <SettingsMenu
       v-model:is-open="isSettingsMenuOpen"
-      @update-pre-prompt="updatePrePromt"
+      @update-settings="updateSettings"
     />
     <ClearChatModal
       v-model:is-open="isClearModalOpen"

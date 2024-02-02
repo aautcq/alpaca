@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import { v4 as uuidV4 } from 'uuid'
-import type { ContextFile } from '~/types'
+import type { ContextFile, LLMModel } from '~/types'
 
 const props = defineProps<{ isOpen: boolean }>()
 
-const emit = defineEmits(['confirm', 'update:isOpen', 'updatePrePrompt'])
+const emit = defineEmits(['confirm', 'update:isOpen', 'updateSettings'])
+
+const availableModels = useState<LLMModel[]>('models')
+const model = useState<LLMModel>('model')
 
 const inputFile = ref()
 
@@ -28,7 +31,7 @@ const state = reactive({
 function updateSettings() {
   prePrompt.value = state.pre_prompt
   localIsOpen.value = false
-  emit('updatePrePrompt')
+  emit('updateSettings')
 }
 
 function readFile(file: File) {
@@ -95,6 +98,18 @@ function beforeLeave(el: Element) {
         title="Heads up!"
         description="You can customize your Matey experience here by setting a pre-promt and context files."
       />
+      <UFormGroup v-if="availableModels.length > 1" label="LLM">
+        <USelectMenu v-model="model" option-attribute="name" :options="availableModels">
+          <template #option="{ option: model }">
+            <span>{{ model.name }}</span>
+            <span class="text-xs font-thin ml-3 text-slate-400">
+              {{ model.nb_parameters }} params
+              &middot;
+              {{ useFormatDate(model.updated_at) }}
+            </span>
+          </template>
+        </USelectMenu>
+      </UFormGroup>
       <UFormGroup label="Pre-prompt">
         <UTextarea
           v-model="state.pre_prompt"
@@ -103,7 +118,10 @@ function beforeLeave(el: Element) {
           autoresize
         />
       </UFormGroup>
-      <UFormGroup label="Context files">
+      <UFormGroup
+        label="Context files"
+        description="Only PDF and plain text files are supported"
+      >
         <UInput
           ref="inputFile"
           type="file"

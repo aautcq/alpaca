@@ -16,14 +16,13 @@ Then, you will need to install [Ollama](https://ollama.ai/download) on your mach
 ollama run <model_name>
 ```
 
-Then, you will need to create a `.env` file in the root of the project and add the following variables:
+Then, you will need to create a `.env` file (based on the `.env.example` file: `cp .env.example .env`) in the root of the project and add the following variables:
 
 ```bash
-OLLAMA_MODEL=
 OLLAMA_URL=
 ```
 
-The `OLLAMA_MODEL` variable should hold the name of the model you are running with Ollama, e.g., `mistral`. The `OLLAMA_URL` variable should hold the URL of the Ollama server, which is `http://localhost:11434` by default.
+The `OLLAMA_URL` variable should hold the URL of the Ollama server, which is `http://localhost:11434` by default.
 
 ## Development Server
 
