@@ -88,99 +88,106 @@ function beforeLeave(el: Element) {
 
 <template>
   <USlideover v-model="localIsOpen">
-    <UForm :state="state" class="flex flex-col gap-y-5 px-5 py-10" @submit="updateSettings">
-      <h2 class="text-2xl font-light">
+    <UForm
+      :state="state"
+      class="pt-10 pb-3 flex flex-col gap-y-5 h-full"
+      @submit="updateSettings"
+    >
+      <h2 class="px-5 text-2xl font-light flex-none">
         Settings
       </h2>
-      <UAlert
-        icon="material-symbols:notifications-outline"
-        color="primary"
-        variant="soft"
-        title="Heads up!"
-      >
-        <template #description>
-          You can customize your Alpaca experience here.
-        </template>
-      </UAlert>
-      <UFormGroup label="Ollama server port">
-        <UButtonGroup orientation="horizontal" class="w-full">
-          <UButton color="gray" disabled class="!cursor-default font-thin">
-            http://localhost:
-          </UButton>
-          <UInput
-            v-model="state.port"
-            placeholder="11434"
-            type="number"
-            autofocus
-            leading
-            class="w-full"
-          />
-        </UButtonGroup>
-      </UFormGroup>
-      <UFormGroup v-if="availableModels.length > 1" label="LLM">
-        <USelectMenu v-model="model" option-attribute="name" :options="availableModels">
-          <template #option="{ option: model }">
-            <span>{{ model.name }}</span>
-            <span class="text-xs font-thin ml-3 text-slate-400">
-              {{ model.nb_parameters }} params
-              &middot;
-              {{ useFormatDate(model.updated_at) }}
-            </span>
-          </template>
-        </USelectMenu>
-      </UFormGroup>
-      <UFormGroup label="Pre-prompt">
-        <UTextarea
-          v-model="state.pre_prompt"
-          placeholder="You are a noice chatbot..."
-          autoresize
-        />
-      </UFormGroup>
-      <UFormGroup
-        label="Context files"
-        description="Only PDF and plain text files are supported"
-      >
-        <UInput
-          ref="inputFile"
-          type="file"
-          class="hidden"
-          accept="text/*, application/pdf"
-          multiple
-          @change="readFiles"
-        />
-        <TransitionGroup
-          tag="ul"
-          name="files-list"
-          class="flex gap-x-1 flex-wrap"
-          @before-leave="beforeLeave"
+      <div class="px-5 flex flex-col gap-y-5 overflow-y-auto flex-auto">
+        <UAlert
+          icon="material-symbols:notifications-outline"
+          color="primary"
+          variant="soft"
+          title="Heads up!"
+          class="overflow-visible"
         >
-          <li key="add">
-            <UButton
-              color="black"
-              variant="soft"
-              :padded="false"
-              class="file-tag"
-              title="Add files"
-              @click.stop.prevent="inputFile.input.click()"
-            >
-              <UIcon name="mdi:file-plus-outline" class="text-3xl" />
-              <div class="font-light text-sm text-center break-all">
-                Add files
-              </div>
+          <template #description>
+            You can customize your Alpaca experience here.
+          </template>
+        </UAlert>
+        <UFormGroup label="Ollama server port">
+          <UButtonGroup orientation="horizontal" class="w-full">
+            <UButton color="gray" disabled class="!cursor-default font-thin">
+              http://localhost:
             </UButton>
-          </li>
-          <li v-for="file in savedFiles" :key="file.name">
-            <FileTag :file="file" @delete-file="deleteFile(file.id)" />
-          </li>
-        </TransitionGroup>
-      </UFormGroup>
-      <div class="flex justify-end gap-x-3">
-        <UButton color="gray" title="Close" @click="localIsOpen = false">
-          Close
-        </UButton>
-        <UButton type="submit" title="Save" icon="ic:outline-check">
-          Save
-        </UButton>
+            <UInput
+              v-model="state.port"
+              placeholder="11434"
+              type="number"
+              autofocus
+              leading
+              class="w-full"
+            />
+          </UButtonGroup>
+        </UFormGroup>
+        <UFormGroup v-if="availableModels.length > 1" label="LLM">
+          <USelectMenu v-model="model" option-attribute="name" :options="availableModels">
+            <template #option="{ option }">
+              <span>{{ option.name }}</span>
+              <span class="text-xs font-thin ml-3 text-slate-400">
+                {{ option.nb_parameters }} params
+                &middot;
+                {{ useFormatDate(option.updated_at) }}
+              </span>
+            </template>
+          </USelectMenu>
+        </UFormGroup>
+        <UFormGroup label="Pre-prompt">
+          <UTextarea
+            v-model="state.pre_prompt"
+            placeholder="You are a noice chatbot..."
+            autoresize
+          />
+        </UFormGroup>
+        <UFormGroup
+          label="Context files"
+          description="Only PDF and plain text files are supported"
+        >
+          <UInput
+            ref="inputFile"
+            type="file"
+            class="hidden"
+            accept="text/*, application/pdf"
+            multiple
+            @change="readFiles"
+          />
+          <TransitionGroup
+            tag="ul"
+            name="files-list"
+            class="flex gap-x-1 flex-wrap"
+            @before-leave="beforeLeave"
+          >
+            <li key="add">
+              <UButton
+                color="black"
+                variant="soft"
+                :padded="false"
+                class="file-tag"
+                title="Add files"
+                @click.stop.prevent="inputFile.input.click()"
+              >
+                <UIcon name="mdi:file-plus-outline" class="text-3xl" />
+                <div class="font-light text-sm text-center break-all">
+                  Add files
+                </div>
+              </UButton>
+            </li>
+            <li v-for="file in savedFiles" :key="file.name">
+              <FileTag :file="file" @delete-file="deleteFile(file.id)" />
+            </li>
+          </TransitionGroup>
+        </UFormGroup>
+        <div class="flex justify-end gap-x-3 sticky bottom-0">
+          <UButton color="gray" title="Close" @click="localIsOpen = false">
+            Close
+          </UButton>
+          <UButton type="submit" title="Save" icon="ic:outline-check">
+            Save
+          </UButton>
+        </div>
       </div>
     </UForm>
   </USlideover>

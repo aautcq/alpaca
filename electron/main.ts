@@ -3,7 +3,7 @@
 import process from 'node:process'
 import { release } from 'node:os'
 import path from 'node:path'
-import { BrowserWindow, app, shell, nativeImage } from 'electron'
+import { BrowserWindow, app, nativeImage, shell } from 'electron'
 
 // remove electron security warnings only in development mode
 process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = 'true'

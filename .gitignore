@@ -12,7 +12,6 @@ release
 node_modules
 .yarn
 yarn.lock
-pnpm-lock.yaml
 .pnpm
 package-lock.json
 

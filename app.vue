@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { v4 as uuidv4 } from 'uuid'
-import type { Conversation, LLMModel } from '~/types'
 import type { IterableReadableStream } from '@langchain/core/utils/stream'
+import type { Conversation, LLMModel } from '~/types'
 
 const isLoadingStream = useState<boolean>('isLoadingStream', () => true)
 
@@ -11,14 +11,13 @@ const port = useState<number>('port')
 const availableModels = useState<LLMModel[]>('models')
 const isOllamaUp = useState<boolean>('isOllamaUp')
 const isLLmReady = computed(
-  () => isOllamaUp.value && availableModels.value.length > 0
+  () => isOllamaUp.value && availableModels.value.length > 0,
 )
 
 let stream: ((input: string, conversation: Conversation) => Promise<IterableReadableStream<string>>) | null = null
 
-if (isLLmReady.value) {
+if (isLLmReady.value)
   stream = await useLlm()
-}
 
 isLoadingStream.value = false
 
@@ -160,7 +159,9 @@ async function stopGeneration() {
                 active-class="text-primary"
                 inactive-class="link"
                 title="Ollama home page"
-              >ollama.ai</ULink>
+              >
+                ollama.ai
+              </ULink>
             </div>
           </template>
         </ConversationPlaceholder>
@@ -175,7 +176,9 @@ async function stopGeneration() {
                 active-class="text-primary"
                 inactive-class="link"
                 title="Ollama models library"
-              >ollama.ai/library</ULink>
+              >
+                ollama.ai/library
+              </ULink>
             </div>
           </template>
         </ConversationPlaceholder>

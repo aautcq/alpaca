@@ -45,4 +45,3 @@ pnpm run lint
 ## Upcoming improvements
 
 - Save chats in local DB
-- Better name and logo

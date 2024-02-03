@@ -6,7 +6,7 @@ import { TextLoader } from 'langchain/document_loaders/fs/text'
 import { WebPDFLoader } from 'langchain/document_loaders/web/pdf'
 import { formatDocumentsAsString } from 'langchain/util/document'
 import { Document } from '@langchain/core/documents'
-import type { ContextFile, Conversation, Message, LLMModel } from '~/types'
+import type { ContextFile, Conversation, LLMModel, Message } from '~/types'
 
 function formatChatHistory(messages: Message[]) {
   const history = messages
