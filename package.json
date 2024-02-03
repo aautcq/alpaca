@@ -16,7 +16,12 @@
   "keywords": [
     "Adrien Autricque",
     "aautcq",
-    "LLM"
+    "LLM",
+    "Alpaca",
+    "chatbot",
+    "Ollama",
+    "Langchain",
+    "AI"
   ],
   "main": "dist-electron/main.js",
   "engines": {
@@ -29,7 +34,8 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "lint": "eslint . --fix"
+    "lint": "eslint . --fix",
+    "publish": "build -p always"
   },
   "cacheDirectories": [
     "node_modules"
