@@ -21,8 +21,8 @@ export async function useOllamaModels() {
   const ollamaServerUrl = computed(() => `http://localhost:${port.value}`)
 
   const { status: ollamaStatus } = await useFetch<{ models: OllamaModel[] }>(
-    `${ollamaServerUrl.value}`
-  );
+    `${ollamaServerUrl.value}`,
+  )
 
   isOllamaUp.value = ollamaStatus.value === 'success'
 
@@ -30,13 +30,12 @@ export async function useOllamaModels() {
     return
 
   const { data, status } = await useFetch<{ models: OllamaModel[] }>(
-    `${ollamaServerUrl.value}/api/tags`
-  );
+    `${ollamaServerUrl.value}/api/tags`,
+  )
 
   if (status.value === 'success' && data.value) {
     availableModels.value = data.value.models.map(
-      (model) => formatModel(model)
-    );
+      model => formatModel(model),
+    )
   }
-
 }

@@ -12,7 +12,7 @@ const isClearModalOpen = useState<boolean>('isClearModalOpen')
         alt="Alpaca logo"
         src="assets/icons/header-logo.png"
         class="h-8 object-contain object-center"
-      />
+      >
       <div class="flex items-center justify-center gap-x-1">
         <Transition name="header-clear" mode="out-in">
           <UButton

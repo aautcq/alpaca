@@ -70,5 +70,5 @@ export default defineNuxtConfig({
   },
   electron: {
     build: [{ entry: 'electron/main.ts', vite: viteElectronBuildConfig }],
-  }
+  },
 })

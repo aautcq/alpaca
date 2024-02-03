@@ -125,12 +125,12 @@ function beforeLeave(el: Element) {
         </UFormGroup>
         <UFormGroup v-if="availableModels.length > 1" label="LLM">
           <USelectMenu v-model="model" option-attribute="name" :options="availableModels">
-            <template #option="{ option: model }">
-              <span>{{ model.name }}</span>
+            <template #option="{ option }">
+              <span>{{ option.name }}</span>
               <span class="text-xs font-thin ml-3 text-slate-400">
-                {{ model.nb_parameters }} params
+                {{ option.nb_parameters }} params
                 &middot;
-                {{ useFormatDate(model.updated_at) }}
+                {{ useFormatDate(option.updated_at) }}
               </span>
             </template>
           </USelectMenu>
