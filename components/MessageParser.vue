@@ -22,8 +22,7 @@ const contentRef = ref()
 function addIdsToCodeElements(node: Node) {
   if (node.nodeType === Node.ELEMENT_NODE && node.nodeName.toLowerCase() === 'code') {
     const el = node as HTMLElement
-    if (el.classList.length > 0 && el.classList.contains('hljs'))
-      el.id = `code-${uuidv4()}`
+    el.id = `code-${uuidv4()}`
   }
 
   if (node.childNodes.length > 0)

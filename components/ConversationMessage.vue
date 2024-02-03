@@ -29,7 +29,7 @@ const isCopied = reactive<Record<string, boolean>>({})
 
 watch(() => displayCopyCodeBtn.value, (newVal) => {
   if (newVal) {
-    const codeBlocks = messageParserRef.value?.$el.querySelectorAll('code.hljs')
+    const codeBlocks = messageParserRef.value?.$el.querySelectorAll('code')
     if (codeBlocks.length)
       codeBlocksIds.value = Array.from(codeBlocks).map(el => (el as Element).id)
   }
@@ -139,23 +139,27 @@ function copyCodeContent(id: string) {
 }
 
 :deep(code) {
-  @apply py-1 px-2 rounded-lg text-sm;
-  @apply inline-block align-middle max-w-full overflow-y-auto;
+  @apply py-1 px-2 rounded-lg text-sm bg-slate-950;
+  @apply inline-block align-middle;
 }
 
 :deep(.hljs) {
   @apply bg-slate-950;
 }
 
-:deep(pre:has(> code.hljs)) {
+:deep(pre:has(> code)) {
   @apply relative;
 }
 
-.hljs > button.code-copy-btn {
+:deep(pre > code) {
+  @apply w-full p-4 max-w-full overflow-y-auto;
+}
+
+code > button.code-copy-btn {
   @apply opacity-0 transition-opacity;
 }
 
-.hljs:hover > button.code-copy-btn {
+code:hover > button.code-copy-btn {
   @apply opacity-100;
 }
 
