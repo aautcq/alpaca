@@ -1,6 +1,6 @@
 {
   "name": "alpaca",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "private": true,
   "description": "Alpaca is a chatbot using a locally running LLM for personal use",
   "author": "Adrien Autricque <adrien.autricque@gmail.com>",
@@ -35,7 +35,7 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "lint": "eslint . --fix",
-    "publish": "build -p always"
+    "publish": "electron-builder -p always"
   },
   "cacheDirectories": [
     "node_modules"
