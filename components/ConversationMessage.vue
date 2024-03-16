@@ -18,7 +18,8 @@ const formatter = new Intl.DateTimeFormat('en-US', {
 const formattedTime = computed(() => formatter.format(props.message.created_at))
 
 const displayCopyCodeBtn = computed(() =>
-  props.message.text.includes('```')
+  !props.message.is_from_user
+  && props.message.text.includes('```')
   && !props.isBeingGenerated
   && !props.isAwaitingResponse,
 )
