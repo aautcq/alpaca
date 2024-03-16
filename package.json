@@ -41,27 +41,27 @@
     "node_modules"
   ],
   "dependencies": {
-    "@langchain/community": "~0.0.26",
-    "@langchain/core": "~0.1.21",
+    "@langchain/community": "~0.0.40",
+    "@langchain/core": "~0.1.48",
     "highlight.js": "~11.9.0",
-    "langchain": "~0.1.12",
-    "marked": "~11.2.0",
-    "marked-highlight": "~2.1.0",
+    "langchain": "~0.1.28",
+    "marked": "~12.0.1",
+    "marked-highlight": "~2.1.1",
     "uuid": "~9.0.1"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "~2.6.3",
-    "@nuxt/ui": "~2.13.0",
+    "@antfu/eslint-config": "~2.8.3",
+    "@nuxt/ui": "~2.14.2",
     "@nuxtjs/fontaine": "~0.4.1",
     "@types/uuid": "~9.0.8",
-    "electron": "~28.2.1",
-    "electron-builder": "~24.9.1",
-    "nuxt": "~3.10.0",
+    "electron": "~29.1.4",
+    "electron-builder": "~24.13.3",
+    "nuxt": "~3.10.3",
     "nuxt-electron": "~0.7.0",
-    "nuxt-security": "~1.1.0",
-    "sass": "~1.70.0",
+    "nuxt-security": "~1.2.2",
+    "sass": "~1.72.0",
     "tree-kill": "~1.2.2",
-    "vite-plugin-electron": "~0.15.6",
+    "vite-plugin-electron": "~0.28.3",
     "vite-plugin-electron-renderer": "~0.14.5"
   }
 }
