@@ -56,8 +56,7 @@ function readFile(file: File) {
   savedFiles.value.push(newFile)
 }
 
-function readFiles(event: Event) {
-  const files = (event.target as HTMLInputElement)?.files
+function readFiles(files: FileList) {
   if (!files || !files.length) {
     toast.add({
       id: 'error_reading_files',
