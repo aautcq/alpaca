@@ -3,9 +3,12 @@ import { ChatPromptTemplate, MessagesPlaceholder } from '@langchain/core/prompts
 import { StringOutputParser } from '@langchain/core/output_parsers'
 import { AIMessage, HumanMessage } from '@langchain/core/messages'
 import { TextLoader } from 'langchain/document_loaders/fs/text'
-import { WebPDFLoader } from 'langchain/document_loaders/web/pdf'
+import type { WebPDFLoader } from 'langchain/document_loaders/web/pdf'
 import { formatDocumentsAsString } from 'langchain/util/document'
 import { Document } from '@langchain/core/documents'
+// eslint-disable-next-line ts/ban-ts-comment
+// @ts-expect-error
+import { coerceToBase64Url } from 'fido2-lib'
 import type { ContextFile, Conversation, LLMModel, Message } from '~/types'
 
 function formatChatHistory(messages: Message[]) {
@@ -31,14 +34,22 @@ export async function useLlm() {
 
   const loadedFiles = savedFiles.value.map(async (file) => {
     let loader: TextLoader | WebPDFLoader | null = null
-    if (file.content.type === 'text/plain')
+    if (file.content.type === 'text/plain') {
       loader = new TextLoader(file.content)
-    else if (file.content.type === 'application/pdf')
-      loader = new WebPDFLoader(file.content) // not working yet
-
-    return loader
-      ? await loader.load()
-      : Promise.resolve([new Document({ pageContent: '' })]) // empty document
+      return await loader.load()
+    }
+    else if (file.content.type === 'application/pdf') {
+      const content = coerceToBase64Url(await file.content.arrayBuffer(), 'pdf-document')
+      const { data } = await useFetch(
+        '/api/pdf-parse',
+        { method: 'POST', body: { data: content } },
+      )
+      if (data?.value?.data?.length)
+        return Promise.resolve([new Document(data.value?.data[0])])
+      else
+        return Promise.resolve([new Document({ pageContent: '' })]) // empty document
+    }
+    return Promise.resolve([new Document({ pageContent: '' })]) // empty document
   })
 
   const docs = (await Promise.all(loadedFiles)).flat()
