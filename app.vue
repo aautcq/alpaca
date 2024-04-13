@@ -14,8 +14,6 @@ const isLLmReady = computed(
   () => isOllamaUp.value && availableModels.value.length > 0,
 )
 
-await useFetch('/test')
-
 let stream: ((input: string, conversation: Conversation) => Promise<IterableReadableStream<string>>) | null = null
 
 if (isLLmReady.value)

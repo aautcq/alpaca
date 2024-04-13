@@ -3,7 +3,6 @@ import { ChatPromptTemplate, MessagesPlaceholder } from '@langchain/core/prompts
 import { StringOutputParser } from '@langchain/core/output_parsers'
 import { AIMessage, HumanMessage } from '@langchain/core/messages'
 import { TextLoader } from 'langchain/document_loaders/fs/text'
-import type { WebPDFLoader } from 'langchain/document_loaders/web/pdf'
 import { formatDocumentsAsString } from 'langchain/util/document'
 import { Document } from '@langchain/core/documents'
 // eslint-disable-next-line ts/ban-ts-comment
@@ -33,7 +32,7 @@ export async function useLlm() {
   const ollamaServerUrl = computed(() => `http://localhost:${port.value}`)
 
   const loadedFiles = savedFiles.value.map(async (file) => {
-    let loader: TextLoader | WebPDFLoader | null = null
+    let loader: TextLoader | null = null
     if (file.content.type === 'text/plain') {
       loader = new TextLoader(file.content)
       return await loader.load()
